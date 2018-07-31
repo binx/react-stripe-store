@@ -1,0 +1,41 @@
+{
+  "name": "react-stripe-store",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@mapbox/togeojson": "^0.16.0",
+    "@material-ui/core": "^1.1.0",
+    "@material-ui/icons": "^1.1.0",
+    "cookie-parser": "^1.4.3",
+    "d3-geo": "^1.10.0",
+    "d3-tile": "^0.0.4",
+    "dotenv": "^6.0.0",
+    "email-templates": "^4.0.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "geojson-dissolve": "^3.1.0",
+    "googleapis": "27",
+    "handlebars": "^4.0.11",
+    "helmet": "^3.12.1",
+    "nodemailer": "^4.6.7",
+    "nodemon": "^1.17.5",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.4",
+    "react-stripe-elements": "^1.6.0",
+    "react-swipeable-views": "^0.12.15",
+    "simplify-geojson": "^1.0.3",
+    "stripe": "^6.1.1",
+    "styled-components": "^3.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "server": "nodemon server/index.js"
+  },
+  "proxy": "http://localhost:5000"
+}
