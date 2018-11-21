@@ -35,7 +35,7 @@ const email = new Email({
 
 function sendEmail(status, order) {
   const items = order.items.slice(0,-2).map(o => {
-    o.amount = o.amount/100;
+    o.amount = (o.amount/100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     return o;
   });
   const time = new Date(order.status_transitions.paid * 1000);
@@ -48,7 +48,7 @@ function sendEmail(status, order) {
       locals: {
         order: order,
         order_id: order.id.split("_")[1],
-        order_total: order.amount/100,
+        order_total: (order.amount/100).toLocaleString('en-US', { style: 'currency', currency: 'USD' }),
         order_date: `${time.getMonth()}/${time.getDate()}/${time.getFullYear()}`,
         items: items,
         config: config

@@ -35,7 +35,7 @@
             <tr style="font-size: 14px;">
               <td style="padding: 0 0 10px;">{{ this.description }}</td>
               <td style="padding: 0 0 10px; color: #555; text-align: right;">{{ this.quantity }}</td>
-              <td style="padding: 0 0 10px; color: #555; text-align: right;">${{ this.amount }}.00</td>
+              <td style="padding: 0 0 10px; color: #555; text-align: right;">{{ this.amount }}</td>
             </tr>
           {{/each}}
         </tbody>
@@ -49,7 +49,7 @@
                 <tbody>
                   <tr style="color: #555;">
                     <td style="padding-bottom: 5px;">Subtotal</td>
-                    <td style="text-align: right;">${{ order_total }}.00</td>
+                    <td style="text-align: right;">{{ order_total }}</td>
                   </tr>
                   <tr style="color: #555;">
                     <td style="padding-bottom: 5px;">Shipping</td>
@@ -57,7 +57,7 @@
                   </tr>
                   <tr style="font-weight: bold;">
                     <td>Total</td>
-                    <td style="text-align: right;">${{ order_total }}.00</td>
+                    <td style="text-align: right;">{{ order_total }}</td>
                   </tr>
                 </tbody>
               </table>

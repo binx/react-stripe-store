@@ -66,6 +66,7 @@ class Cart extends Component {
       totalPrice = this.state.items
         .map(i => (i.quantity*i.price))
         .reduce((a,b) => a+Number(b))
+        .toLocaleString('en-US', { style: 'currency', currency: 'USD' })
     }
     return (
       <PageWrapper>
