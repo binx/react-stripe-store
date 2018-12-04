@@ -83,7 +83,7 @@ class Cart extends Component {
                 <RightSide>
                   <Subtotal>
                     <span>Subtotal</span>
-                    ${totalPrice}.00
+                    {totalPrice}
                   </Subtotal>
                   <Link to={`/checkout`} style={{ textDecoration: "none" }}>
                     <Button variant="raised" color="primary">Check Out</Button>

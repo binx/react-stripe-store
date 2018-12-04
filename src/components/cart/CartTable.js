@@ -98,7 +98,10 @@ class CartTable extends Component {
               <td>
                 <TextField
                   value={d.quantity}
-                  onChange={(e) => this.props.updateCount(i, e.target.value)} 
+                  onChange={(e) => {
+                    if (e.target.value < 0) e.target.value = 0;
+                    this.props.updateCount(i, e.target.value)}
+                  }
                   type="number"
                   margin="none"
                   style={{ width: "40px" }}
