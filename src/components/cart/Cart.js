@@ -66,6 +66,7 @@ class Cart extends Component {
       totalPrice = this.state.items
         .map(i => (i.quantity*i.price))
         .reduce((a,b) => a+Number(b))
+        .toLocaleString('en-US', { style: 'currency', currency: 'USD' })
     }
     return (
       <PageWrapper>
@@ -82,7 +83,7 @@ class Cart extends Component {
                 <RightSide>
                   <Subtotal>
                     <span>Subtotal</span>
-                    ${totalPrice}.00
+                    {totalPrice}
                   </Subtotal>
                   <Link to={`/checkout`} style={{ textDecoration: "none" }}>
                     <Button variant="raised" color="primary">Check Out</Button>

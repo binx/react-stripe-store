@@ -37,6 +37,7 @@ class CartSmall extends Component {
       price = this.props.items
         .map(i => i.quantity*i.price)
         .reduce((a,b) => a+Number(b))
+        .toLocaleString('en-US', { style: 'currency', currency: 'USD' })
     }
     return (
       <Wrapper>
@@ -63,7 +64,7 @@ class CartSmall extends Component {
         <Divider style={{ margin: "20px 0" }}/>
           <Row>
             <span className="small-text">Subtotal</span>
-            <span className="black-text small-text">${price}</span>
+            <span className="black-text small-text">{price}</span>
           </Row>
           <Row>
             <span className="small-text">Shipping</span>
@@ -72,7 +73,7 @@ class CartSmall extends Component {
         <Divider style={{ margin: "20px 0" }}/>
           <Row>
             <span>Total</span>
-            <span className="black-text">${price}</span>
+            <span className="black-text">{price}</span>
           </Row>
       </Wrapper>
     );
