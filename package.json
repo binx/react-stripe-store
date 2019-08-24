@@ -10,7 +10,7 @@
     "d3-geo": "^1.10.0",
     "d3-tile": "^0.0.4",
     "dotenv": "^6.0.0",
-    "email-templates": "^4.0.1",
+    "email-templates": "^6.0.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "geojson-dissolve": "^3.1.0",
