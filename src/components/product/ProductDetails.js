@@ -5,10 +5,10 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 
-const FlexWrapper = styled.div`
+const FlexWrapper = styled.div `
   margin: 20px 0 40px;
 `;
-const Row = styled.div`
+const Row = styled.div `
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
@@ -20,17 +20,17 @@ const Row = styled.div`
     text-transform: capitalize;
   }
 `;
-const Right = styled.div`
+const Right = styled.div `
   display: flex;
   flex-direction: row-reverse;
   margin: 30px 0 60px;
   align-items: baseline;
 `;
-const Description = styled.div`
+const Description = styled.div `
   color: rgba(0, 0, 0, 0.87);
   font-size: 16px;
 `;
-const Details = styled.div`
+const Details = styled.div `
   clear: both;
   font-size: 14px;
   margin-top: 20px;
@@ -52,11 +52,12 @@ class ProductDetails extends Component {
   }
 
   handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
+    this.setState({
+      [name]: event.target.value });
     const index = event.target.selectedIndex;
     const selectedOption = event.target.childNodes[index]
-    const sku_id =  selectedOption.getAttribute('sku_id');
-    const price =  selectedOption.getAttribute('price');
+    const sku_id = selectedOption.getAttribute('sku_id');
+    const price = selectedOption.getAttribute('price');
     if (sku_id) this.props.setSKU({ sku_id, price })
   }
   render() {

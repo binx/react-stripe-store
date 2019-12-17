@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { withTheme } from '@material-ui/core/styles';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div `
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 40px;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     grid-gap: 20px;
   }
 `;
-const LargeIMG = styled.div`
+const LargeIMG = styled.div `
   background-image: url(${props => props.img});
   background-color: #ddd;
   width: 100%;
@@ -32,11 +32,11 @@ const LargeIMG = styled.div`
     }
   }
 `;
-const ImgWrapper = styled.div`
+const ImgWrapper = styled.div `
   border-bottom: 3px solid ${props => props.borderColor};
   display: flex;
 `;
-const Title = styled.div`
+const Title = styled.div `
   color: black;
   text-decoration-color: #FF7400;
   margin-top: 10px;
@@ -44,29 +44,29 @@ const Title = styled.div`
     font-size: 14px;
   }
 `;
-const Price = styled.span`
+const Price = styled.span `
   display: block;
   color: #888;
   font-size: 14px;
   margin-top: 5px;
 `;
 
-class ProductList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: this.props.config.products
-    }
-  }
-  componentDidMount() {
+function ProductList(props) {
+  const [products, setProducts] = useState(props.config.products);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const getProducts = () => {
     fetch('/product-info/')
       .then(res => res.json())
       .then(skus => {
-        let products = [...this.state.products]
-        products.forEach(product => {
+        let newProducts = [...products]
+        newProducts.forEach(product => {
           let skuList = [...skus]
           skuList = skuList.filter(s => s.product === product.stripe_id)
-            .map(s => s.price/100)
+            .map(s => s.price / 100)
           if (skuList.length === 1) {
             product["price"] = skuList[0];
           } else {
@@ -76,26 +76,24 @@ class ProductList extends Component {
             else product["price"] = `${min} - $${max}`;
           }
         })
-        this.setState({ products })
+        setProducts(newProducts)
       }).catch(error => console.error('Error:', error))
   }
-  render() {
-    const { products } = this.state;
-    return (
-      <Wrapper>
-        { products.map((product,i) => {
-          return <Link key={i} to={`/product/${product.url}`}>
-            <ImgWrapper borderColor={this.props.theme.palette.secondary.main}>
-              <LargeIMG img={`../photos/${product.url}/${product.photos[0]}`}/>
-            </ImgWrapper>
-            <Title>
-              {product.name}
-              <Price>${product.price}</Price>
-            </Title>
-          </Link>
-        })}
-      </Wrapper>
-    );
-  }
+
+  return (
+    <Wrapper>
+      { products.map((product,i) => {
+        return <Link key={i} to={`/product/${product.url}`}>
+          <ImgWrapper borderColor={props.theme.palette.secondary.main}>
+            <LargeIMG img={`../photos/${product.url}/${product.photos[0]}`}/>
+          </ImgWrapper>
+          <Title>
+            {product.name}
+            <Price>${product.price}</Price>
+          </Title>
+        </Link>
+      })}
+    </Wrapper>
+  );
 };
-export default withTheme()(ProductList);
+export default withTheme(ProductList);

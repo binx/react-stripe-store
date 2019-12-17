@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { withTheme } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
 
-const Table = styled.table`
+const Table = styled.table `
   width: 100%;
   border-collapse: collapse;
 
@@ -22,11 +22,11 @@ const Table = styled.table`
     border-bottom: 1px solid #ddd;
   }
 `;
-const Flex = styled.div`
+const Flex = styled.div `
   display: flex;
   align-items: center;
 `;
-const Image = styled.div`
+const Image = styled.div `
   background-image: url(${props => props.img});
   width: 125px;
   height: 125px;
@@ -37,19 +37,19 @@ const Image = styled.div`
     height: 62px;
   }
 `;
-const Remove = styled.span`
+const Remove = styled.span `
   cursor: pointer;
   opacity: .5;
   transition: opacity .5s;
   &:hover { opacity: 1; }
 `;
-const Title = styled.div`
+const Title = styled.div `
   margin-left: 30px;
   @media (max-width: 650px) {
     margin-left: 10px;
   }
 `;
-const Name = styled.div`
+const Name = styled.div `
   margin-bottom: 10px;
   font-size: 16px;
   > a {
@@ -57,64 +57,61 @@ const Name = styled.div`
     text-decoration-color: ${props => props.underline};
   }
 `;
-const Attrs = styled.div`
+const Attrs = styled.div `
   color: #888;
   font-size: 12px;
   text-transform: capitalize;
 `;
 
-class CartTable extends Component {
-  render() {
-    return (
-      <Table>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          { this.props.items.map((d,i) => {
-            let attrs = [];
-            for (let key in d.attr) {
-              attrs.push(`${key.replace("_", " ")}: ${d.attr[key]}`)
-            }
-            attrs = attrs.join(", ");
+const CartTable = ({ items, theme, updateCount, removeItem }) => (
+  <Table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      { items.map((d,i) => {
+        let attrs = [];
+        for (let key in d.attr) {
+          attrs.push(`${key.replace("_", " ")}: ${d.attr[key]}`)
+        }
+        attrs = attrs.join(", ");
 
-            return (<tr key={`cart${i}`}>
-              <td>
-                <Flex>
-                  <Image img={d.img} />
-                  <Title>
-                    <Name underline={this.props.theme.palette.primary.main}>
-                      <Link to={d.url ? d.url : "/"}>{d.name}</Link>
-                    </Name>
-                    <Attrs>{attrs}</Attrs>
-                  </Title>
-                </Flex>
-              </td>
-              <td>
-                <TextField
-                  value={d.quantity}
-                  onChange={(e) => this.props.updateCount(i, e.target.value)} 
-                  type="number"
-                  margin="none"
-                  style={{ width: "40px" }}
-                />
-              </td>
-              <td>
-                ${d.quantity*d.price}
-              </td>
-              <td>
-                <Remove onClick={() => this.props.removeItem(i)}>✕</Remove>
-              </td>
-            </tr>);
-          })}
-        </tbody>
-      </Table>
-    );
-  }
-};
-export default withTheme()(CartTable);
+        return (<tr key={`cart${i}`}>
+          <td>
+            <Flex>
+              <Image img={d.img} />
+              <Title>
+                <Name underline={theme.palette.primary.main}>
+                  <Link to={d.url ? d.url : "/"}>{d.name}</Link>
+                </Name>
+                <Attrs>{attrs}</Attrs>
+              </Title>
+            </Flex>
+          </td>
+          <td>
+            <TextField
+              value={d.quantity}
+              onChange={(e) => updateCount(i, e.target.value)} 
+              type="number"
+              margin="none"
+              style={{ width: "40px" }}
+            />
+          </td>
+          <td>
+            ${d.quantity*d.price}
+          </td>
+          <td>
+            <Remove onClick={() => removeItem(i)}>✕</Remove>
+          </td>
+        </tr>);
+      })}
+    </tbody>
+  </Table>
+);
+
+export default withTheme(CartTable);

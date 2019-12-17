@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
@@ -22,7 +22,7 @@ const styles = theme => ({
     display: "inline-block"
   },
   menuButton: {
-    marginRight: "30px", 
+    marginRight: "30px",
     textDecoration: "none"
   },
   appbar: {
@@ -33,41 +33,38 @@ const styles = theme => ({
   }
 });
 
-class Banner extends Component {
-  render() {
-    const { classes, quantity, config } = this.props;
-    const number = quantity ? ` (${quantity})` : "";
+const Banner = ({ classes, quantity, config, width }) => {
 
-    const productLink = <Link to={`/product`} style={{flex: 1}} className={classes.menuButton}>
-      <Typography variant="button" gutterBottom>Shop</Typography>
-    </Link>
+  const number = quantity ? ` (${quantity})` : "";
 
-    let menu;
-    if (isWidthDown('sm', this.props.width)) {
-      menu = <BannerHamburger productLink={productLink} number={number} />
-    } else {
-      menu = (<span className={classes.buttons}>
-          { productLink }
-          <Link to={`/cart`} className={classes.menuButton} style={{ marginRight: 0 }}>
-            <Typography variant="button" gutterBottom>Cart{number}</Typography>
-          </Link>
-        </span>
-      )
-    }
+  const productLink = <Link to={`/product`} style={{flex: 1}} className={classes.menuButton}>
+    <Typography variant="button" gutterBottom>Shop</Typography>
+  </Link>
 
-    return (
-      <div className={classes.root}>
-        <AppBar position="static" color="secondary" className={classes.appbar}>
-          <Toolbar>
-            <Link to={`/`} className={classes.menuButton}>
-              <div className="logo" />
-              <h3 className={classes.storeName}>{config.store_name}</h3>
-            </Link>
-            { menu }
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
+  let menu;
+  if (isWidthDown('sm', width)) {
+    menu = <BannerHamburger productLink={productLink} number={number} />
+  } else {
+    menu = (<span className={classes.buttons}>
+        { productLink }
+        <Link to={`/cart`} className={classes.menuButton} style={{ marginRight: 0 }}>
+          <Typography variant="button" gutterBottom>Cart{number}</Typography>
+        </Link>
+      </span>)
   }
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" color="secondary" className={classes.appbar}>
+        <Toolbar>
+          <Link to={`/`} className={classes.menuButton}>
+            <div className="logo" />
+            <h3 className={classes.storeName}>{config.store_name}</h3>
+          </Link>
+          { menu }
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 };
 export default withWidth()(withStyles(styles)(Banner));

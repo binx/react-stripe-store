@@ -39,23 +39,22 @@ class Checkout extends Component {
   componentDidMount() {
     const slug = `${this.props.config.store_slug}_products`;
     const items = JSON.parse(localStorage.getItem(slug));
-    this.setState({ items : items ? items : [] })
+    this.setState({ items: items ? items : [] })
   }
   changePane = (pane) => {
     this.setState({ pane });
   }
   handleChange = (name, value) => {
-    this.setState({ [name] : value });
+    this.setState({
+      [name]: value });
   }
   createOrder = (address) => {
     const { items, email } = this.state;
 
-    const itemSKUS = items.map(i => (
-      { type: 'sku', parent: i.sku_id, quantity: +i.quantity }
-    ));
+    const itemSKUS = items.map(i => ({ type: 'sku', parent: i.sku_id, quantity: +i.quantity }));
 
     let metadata = { status: "Ordered" };
-    items.forEach((item,index) => {
+    items.forEach((item, index) => {
       metadata[`order-${index}-${item.sku_id}`] = JSON.stringify(item.attr);
     });
 
@@ -77,13 +76,13 @@ class Checkout extends Component {
     };
 
     fetch("/order/create", {
-      method: 'POST',
-      headers: new Headers({'content-type': 'application/json'}),
-      body: JSON.stringify(postBody)
-    }).then((response) => response.json())
-    .then((json) => {
-      this.setState({ order_id : json.id });
-    })
+        method: 'POST',
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: JSON.stringify(postBody)
+      }).then((response) => response.json())
+      .then((json) => {
+        this.setState({ order_id: json.id });
+      })
   }
 
   setToken = (token) => {
@@ -92,19 +91,19 @@ class Checkout extends Component {
       return;
     }
     fetch("/order/pay", {
-      method: 'POST',
-      headers: new Headers({'content-type': 'application/json'}),
-      body: JSON.stringify({
-        id: this.state.order_id,
-        source: token
+        method: 'POST',
+        headers: new Headers({ 'content-type': 'application/json' }),
+        body: JSON.stringify({
+          id: this.state.order_id,
+          source: token
+        })
+      }).then((response) => response.json())
+      .then((order) => {
+        this.props.history.push({
+          pathname: '/confirm',
+          state: { order }
+        });
       })
-    }).then((response) => response.json())
-    .then((order) => {
-      this.props.history.push({
-        pathname: '/confirm',
-        state: { order }
-      });
-    }) 
   }
 
   render() {

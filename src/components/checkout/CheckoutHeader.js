@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { withTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-const Flex = styled.div`
+const Flex = styled.div `
   display: flex;
 `;
-const BigNum = styled.div`
+const BigNum = styled.div `
   border: 1px solid #888;
   border-width: ${props => (props.active || props.complete) ? 0 : "1px"};
   background-color: ${props => {
@@ -27,7 +27,7 @@ const BigNum = styled.div`
   font-size: 18px;
   line-height: 30px;
 `;
-const Title = styled.div`
+const Title = styled.div `
   flex: 1;
   margin-left: 10px;
   font-size: 24px;
@@ -57,4 +57,4 @@ const CheckoutHeader = ({ pane, text, currentPane, changePane, theme }) => {
     </Flex>
   );
 }
-export default withTheme()(CheckoutHeader);
+export default withTheme(CheckoutHeader);

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
   CardElement,
   Elements,
@@ -27,62 +27,54 @@ const createOptions = (fontSize) => {
   };
 };
 
-class _CardForm extends Component {
-  state = { disabled: false };
-  handleSubmit = ev => {
-    ev.preventDefault();
-    this.props.stripe.createToken()
+function _CardForm(props) {
+  const [disabled, setDisabled] = useState(false);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    props.stripe.createToken()
       .then(payload => {
-        this.setState({ disabled: true })
-        this.props.setToken(payload.token.id)
+        setDisabled(true);
+        props.setToken(payload.token.id)
       });
   };
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          <CardElement
-            {...createOptions(this.props.fontSize)}
-          />
-        </label>
-        <Button variant="raised" color="primary" 
-          disabled={this.state.disabled} onClick={this.handleSubmit}
-        >
-          Complete Order
-        </Button>
-      </form>
-    );
-  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        <CardElement
+          {...createOptions(props.fontSize)}
+        />
+      </label>
+      <Button variant="raised" color="primary" 
+        disabled={disabled} onClick={handleSubmit}
+      >
+        Complete Order
+      </Button>
+    </form>
+  );
 }
 const CardForm = injectStripe(_CardForm);
 
-class CreditCard extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      elementFontSize: window.innerWidth < 450 ? '14px' : '18px',
-    };
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 450 && this.state.elementFontSize !== '14px') {
-        this.setState({elementFontSize: '14px'});
-      } else if (
-        window.innerWidth >= 450 &&
-        this.state.elementFontSize !== '18px'
-      ) {
-        this.setState({elementFontSize: '18px'});
-      }
-    });
-  }
+function CreditCard(props) {
+  const [elementFontSize, setElementFontSize] = useState(window.innerWidth < 450 ? '14px' : '18px')
 
-  render() {
-    const {elementFontSize} = this.state;
-    return (
-      <div className="Checkout">
-        <Elements>
-          <CardForm fontSize={elementFontSize} setToken={this.props.setToken} />
-        </Elements>
-      </div>
-    );
-  }
+  window.addEventListener('resize', () => {
+    if (window.innerWidth < 450 && this.state.elementFontSize !== '14px') {
+      setElementFontSize('14px')
+    } else if (
+      window.innerWidth >= 450 &&
+      elementFontSize !== '18px'
+    ) {
+      setElementFontSize('18px')
+    }
+  });
+
+  return (
+    <div className="Checkout">
+      <Elements>
+        <CardForm fontSize={elementFontSize} setToken={props.setToken} />
+      </Elements>
+    </div>
+  );
 }
 export default CreditCard;

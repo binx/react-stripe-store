@@ -10,13 +10,13 @@ import MobileCarousel from '../ui/MobileCarousel';
 import Breadcrumb from '../ui/Breadcrumb';
 import Paper from '@material-ui/core/Paper';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div `
   padding: 40px;
   @media (max-width: 650px) {
     padding: 20px;
   }
 `;
-const Grid = styled.div`
+const Grid = styled.div `
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 40px;
@@ -38,7 +38,7 @@ class Product extends Component {
   componentDidMount() {
     if (!this.props.product.stripe_id) return;
 
-    fetch('/product-info/'+this.props.product.stripe_id)
+    fetch('/product-info/' + this.props.product.stripe_id)
       .then(res => res.json())
       .then(product => {
         if (product.data.length > 1) {
@@ -47,7 +47,7 @@ class Product extends Component {
             "name": attr,
             "options": product.data.map(sku => ({
               sku_id: sku.id,
-              price: sku.price/100,
+              price: sku.price / 100,
               label: sku.attributes[attr]
             }))
           }
@@ -62,7 +62,7 @@ class Product extends Component {
         } else {
           this.setSKU({
             sku_id: product.data[0].id,
-            price: product.data[0].price/100
+            price: product.data[0].price / 100
           });
         }
       }).catch(error => console.error('Error:', error));
@@ -93,7 +93,7 @@ class Product extends Component {
     products = Array.isArray(products) ? products : [];
 
     const item = {
-      img : `../photos/${product.url}/${product.photos[0]}`,
+      img: `../photos/${product.url}/${product.photos[0]}`,
       url: `/product/${product.url}`,
       sku_id: this.state.sku_id,
       name: product.name,
