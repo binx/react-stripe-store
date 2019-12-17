@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Button from '@material-ui/core/Button';
@@ -43,38 +43,38 @@ const Details = styled.div `
   }
 `;
 
-class ProductDetails extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      quantity: this.props.quantity
-    };
-  }
+function ProductDetails(props) {
+  const [product, setProduct] = useState(props.product);
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value });
+  const { variants } = props;
+
+  const handleChange = name => event => {
+    const newProduct = Object.assign({
+      [name]: event.target.value
+    }, product);
+    setProduct(newProduct)
+
     const index = event.target.selectedIndex;
     const selectedOption = event.target.childNodes[index]
     const sku_id = selectedOption.getAttribute('sku_id');
     const price = selectedOption.getAttribute('price');
-    if (sku_id) this.props.setSKU({ sku_id, price })
+    if (sku_id)
+      props.updateSkuPrice(sku_id, price);
   }
-  render() {
-    const { product } = this.props;
-    return (
-      <div>
+
+  return (
+    <div>
         <h2 style={{ marginTop: "0" }}>{product.name}</h2>
         <Description>{product.description}</Description>
-        { this.props.variants &&
+        { variants &&
           <FlexWrapper>
-            {this.props.variants.map((variant,i) => {
+            {variants.map((variant,i) => {
               return <Row key={i}>
                 <label>{variant.name.replace("_"," ")}</label>
                 <Select
                   native
-                  value={this.state[variant.name]}
-                  onChange={this.handleChange(variant.name)}
+                  value={product[variant.name]}
+                  onChange={handleChange(variant.name)}
                   style={{ width: "155px", fontSize: "14px", height: "29px" }}
                 >
                   { variant.options.map((option,j) => {
@@ -91,17 +91,17 @@ class ProductDetails extends Component {
           </FlexWrapper>
         }
         <div style={{ fontWeight: "600", textAlign: "right" }}>
-          ${this.props.price}
+          ${props.price}
         </div>
         <Right>
           <Button variant="raised" color="primary"
-            onClick={() => this.props.addToCart(this.state)}
+            onClick={() => props.addToCart(product)}
           >
             Add To Cart
           </Button>
           <TextField
-            value={this.state.quantity}
-            onChange={this.handleChange('quantity')}
+            value={props.quantity}
+            onChange={e => props.setQuantity(e.target.value)}
             type="number"
             margin="normal"
             style={{ width: "40px", margin: "0 30px 0" }}
@@ -117,7 +117,6 @@ class ProductDetails extends Component {
           </Details>
         }
       </div>
-    );
-  }
+  );
 };
 export default ProductDetails;

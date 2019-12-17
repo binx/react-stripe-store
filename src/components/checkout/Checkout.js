@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import PageWrapper from '../ui/PageWrapper';
@@ -26,31 +26,23 @@ const styles = theme => ({
   }
 });
 
-class Checkout extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pane: 0,
-      items: [],
-      email: "",
-      address: {}
-    };
-  }
-  componentDidMount() {
-    const slug = `${this.props.config.store_slug}_products`;
-    const items = JSON.parse(localStorage.getItem(slug));
-    this.setState({ items: items ? items : [] })
-  }
-  changePane = (pane) => {
-    this.setState({ pane });
-  }
-  handleChange = (name, value) => {
-    this.setState({
-      [name]: value });
-  }
-  createOrder = (address) => {
-    const { items, email } = this.state;
+function Checkout(props) {
+  const [items, setItems] = useState([]);
+  const [pane, setPane] = useState(0);
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState({});
+  const [orderID, setOrderID] = useState();
+  const [error, setError] = useState();
 
+  const { classes, config } = props;
+
+  useEffect(() => {
+    const slug = `${props.config.store_slug}_products`;
+    let newItems = JSON.parse(localStorage.getItem(slug));
+    setItems(newItems ? newItems : [])
+  }, []);
+
+  const createOrder = (address) => {
     const itemSKUS = items.map(i => ({ type: 'sku', parent: i.sku_id, quantity: +i.quantity }));
 
     let metadata = { status: "Ordered" };
@@ -81,103 +73,99 @@ class Checkout extends Component {
         body: JSON.stringify(postBody)
       }).then((response) => response.json())
       .then((json) => {
-        this.setState({ order_id: json.id });
+        setOrderID(json.id);
       })
   }
 
-  setToken = (token) => {
-    if (!this.state.order_id) {
-      this.setState({ error: true });
+  const setToken = token => {
+    if (!orderID) {
+      setError(true)
       return;
     }
     fetch("/order/pay", {
         method: 'POST',
         headers: new Headers({ 'content-type': 'application/json' }),
         body: JSON.stringify({
-          id: this.state.order_id,
+          id: orderID,
           source: token
         })
       }).then((response) => response.json())
       .then((order) => {
-        this.props.history.push({
+        props.history.push({
           pathname: '/confirm',
           state: { order }
         });
       })
   }
 
-  render() {
-    const { classes, config } = this.props;
-    const { pane, address } = this.state;
+  let displayAddress;
+  if (address.postalCode) {
+    displayAddress = (
+      <div className={classes.inputInfo}>
+          <div>{address.givenName} {address.familyName}</div>
+          <div>{address.address1}</div>
+          <div>{address.address2}</div>
+          <div>{address.locality}, {address.region}</div>
+          <div>{address.postalCode}</div>
+        </div>
+    );
+  }
 
-    let displayAddress;
-    if (address.postalCode) {
-      displayAddress = <div className={classes.inputInfo}>
-        <div>{address.givenName} {address.familyName}</div>
-        <div>{address.address1}</div>
-        <div>{address.address2}</div>
-        <div>{address.locality}, {address.region}</div>
-        <div>{address.postalCode}</div>
-      </div>
-    }
-    return (
-      <PageWrapper>
+  return (
+    <PageWrapper>
         <Grid container className={classes.root} spacing={16} direction={'row-reverse'}>
           <Grid item md={4} xs={12}>
             <Paper className={classes.paper}>
-              <CartSmall items={this.state.items} config={config} />
+              <CartSmall items={items} config={config} />
             </Paper>
           </Grid>
           <Grid item md={8} xs={12}>
             <Paper className={classes.paper}>
               <CheckoutHeader text={"Your Email"} classes={classes.heading}
                 pane={0} currentPane={pane}
-                changePane={() => this.changePane(0)}
+                changePane={() => setPane(0)}
               />
-              { pane === 0
-                ? <Email
-                    email={this.state.email} 
-                    handleChange={this.handleChange}
-                    changePane={() => this.changePane(1)}
-                  />
-                : <div className={classes.inputInfo}>
-                    {this.state.email}
-                  </div>
-              }
+              { pane === 0 ? (
+                <Email
+                  email={email} 
+                  handleChange={setEmail}
+                  changePane={() => setPane(1)}
+                />
+              ) : (
+                <div className={classes.inputInfo}>
+                  {email}
+                </div>
+              )}
             </Paper>
             <Paper className={classes.paper}>
               <CheckoutHeader text={"Shipping Address"} classes={classes.heading}
                 pane={1} currentPane={pane}
-                changePane={() => this.changePane(1)}
+                changePane={() => setPane(1)}
               />
-              { pane === 1
-                ? <Shipping
-                    address={this.state.address}
-                    handleChange={this.handleChange}
-                    createOrder={this.createOrder}
-                    changePane={() => this.changePane(2)}
-                  />
-                : displayAddress
-              }
+              { pane === 1 ? (
+                <Shipping
+                  address={address}
+                  handleChange={setAddress}
+                  createOrder={createOrder}
+                  changePane={() => setPane(2)}
+                />
+              ) : displayAddress}
             </Paper>
             <Paper className={classes.paper}>
               <CheckoutHeader text={"Payment"} classes={classes.heading}
                 pane={2} currentPane={pane}
-                changePane={() => this.changePane(2)}
+                changePane={() => setPane(2)}
               />
-              { this.state.error &&
+              { error &&
                 <p style={{ color: "#f40" }}>Sorry, an error has occurred. Please refresh the page and try again.</p>
               }
-              { (!this.state.error && pane === 2)
-                && <CreditCards
-                    setToken={this.setToken}
-                  />
-              }
+              { !error && pane === 2 && (
+                <CreditCards setToken={setToken} />
+              )}
             </Paper>
           </Grid>
         </Grid>
       </PageWrapper>
-    );
-  }
+  );
 }
 export default withRouter(withStyles(styles)(Checkout));
