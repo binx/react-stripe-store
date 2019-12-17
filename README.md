@@ -9,7 +9,7 @@ Uses [Material-UI](http://material-ui.com/) and [styled-components](https://www.
 Site also includes a password-protected admin view, Nodemailer integration for sending order updates, and email templates built with Handlebars.
 
 ### Demo
-[Check out this live demo!](https://shop.rachelbinx.com) - and yes, you can order any of those :)
+[Demo of store](https://www.gpxjewelry.com/) - with some extra visualization magic on top :)
 
 ### Quickstart
 ```
