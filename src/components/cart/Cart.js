@@ -55,6 +55,7 @@ function Cart(props) {
   if (items.length) {
     totalPrice = items.map(i => (i.quantity * i.price))
       .reduce((a, b) => a + Number(b))
+      .toLocaleString('en-US', { style: 'currency', currency: 'USD' })
   }
 
   return (
@@ -72,7 +73,7 @@ function Cart(props) {
               <RightSide>
                 <Subtotal>
                   <span>Subtotal</span>
-                  ${totalPrice}.00
+                  {totalPrice}
                 </Subtotal>
                 <Link to={`/checkout`} style={{ textDecoration: "none" }}>
                   <Button variant="contained" color="primary">Check Out</Button>

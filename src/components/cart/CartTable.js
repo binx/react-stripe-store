@@ -96,14 +96,17 @@ const CartTable = ({ items, theme, updateCount, removeItem }) => (
           <td>
             <TextField
               value={d.quantity}
-              onChange={(e) => updateCount(i, e.target.value)} 
+              onChange={(e) => {
+                if (e.target.value < 0) e.target.value = 0;
+                updateCount(i, e.target.value)
+              }}
               type="number"
               margin="none"
               style={{ width: "40px" }}
             />
           </td>
           <td>
-            ${d.quantity*d.price}
+            ${(d.quantity*d.price).toFixed(2)}
           </td>
           <td>
             <Remove onClick={() => removeItem(i)}>✕</Remove>

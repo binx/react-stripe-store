@@ -35,34 +35,37 @@ const CartSmall = ({ items }) => {
   if (items.length) {
     price = items.map(i => i.quantity * i.price)
       .reduce((a, b) => a + Number(b))
+      .toLocaleString('en-US', { style: 'currency', currency: 'USD' })
   }
 
   return (
     <Wrapper>
-      { items.map((d,i) => {
+      {items.map((d,i) => {
         let attrs = [];
         for (let key in d.attr) {
           attrs.push(`${key.replace("_", " ")}: ${d.attr[key]}`)
         }
         attrs = attrs.join(", ");
 
-        return (<Row key={`cart${i}`}>
-          <span>
-            <Image img={d.img} />
-          </span>
-          <span className="full">
-            <Row>
-              <span className="black-text">{d.name}</span>
-              <span>{d.quantity}</span>
-            </Row>
-            <div className="small-text">{attrs}</div>
-          </span>
-        </Row>);
+        return (
+          <Row key={`cart${i}`}>
+            <span>
+              <Image img={d.img} />
+            </span>
+            <span className="full">
+              <Row>
+                <span className="black-text">{d.name}</span>
+                <span>{d.quantity}</span>
+              </Row>
+              <div className="small-text">{attrs}</div>
+            </span>
+          </Row>
+        );
       })}
       <Divider style={{ margin: "20px 0" }}/>
         <Row>
           <span className="small-text">Subtotal</span>
-          <span className="black-text small-text">${price}</span>
+          <span className="black-text small-text">{price}</span>
         </Row>
         <Row>
           <span className="small-text">Shipping</span>
@@ -71,9 +74,9 @@ const CartSmall = ({ items }) => {
       <Divider style={{ margin: "20px 0" }}/>
         <Row>
           <span>Total</span>
-          <span className="black-text">${price}</span>
+          <span className="black-text">{price}</span>
         </Row>
     </Wrapper>
   );
-};
+}
 export default CartSmall;
