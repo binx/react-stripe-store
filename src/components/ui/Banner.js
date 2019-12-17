@@ -23,7 +23,8 @@ const styles = theme => ({
   },
   menuButton: {
     marginRight: "30px",
-    textDecoration: "none"
+    textDecoration: "none",
+    color: "black"
   },
   appbar: {
     padding: "0 60px",
