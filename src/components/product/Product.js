@@ -40,7 +40,7 @@ function Product(props) {
     fetch(`/product-info/${props.product.stripe_id}`)
       .then(res => res.json())
       .then(product => {
-        if (product.data.length > 1) {
+        if (product.data && product.data.length > 1) {
           const attr = Object.keys(product.data[0].attributes)[0]
           const product_skus = {
             "name": attr,

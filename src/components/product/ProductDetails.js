@@ -94,7 +94,7 @@ function ProductDetails(props) {
           ${props.price}
         </div>
         <Right>
-          <Button variant="raised" color="primary"
+          <Button variant="contained" color="primary"
             onClick={() => props.addToCart(product)}
           >
             Add To Cart

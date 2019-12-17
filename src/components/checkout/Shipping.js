@@ -20,14 +20,13 @@ function Shipping(props) {
   }, [])
 
   const handleChange = (name, value) => {
-    const newAddress = Object.assign({
+    const newAddress = Object.assign({ ...address }, {
       [name]: value
-    }, address)
+    });
     setAddress(newAddress);
   }
 
   const submitAddress = () => {
-    props.handleChange("address", address);
     props.createOrder(address);
     props.changePane();
   }
@@ -92,7 +91,7 @@ function Shipping(props) {
       <div style={{ marginTop: "20px", fontSize: "14px" }}>
         All orders are shipped USPS Priority, and delivered in 2-5 business days.
       </div>
-      <Button variant="raised" color="primary"
+      <Button variant="contained" color="primary"
         style={{ marginTop: "20px" }}
         disabled={!address.postalCode.length}
         onClick={submitAddress}

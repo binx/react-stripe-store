@@ -25,8 +25,11 @@ function BannerHamburger({ classes, productLink, number }) {
 
   return (
     <span className={classes.hamburger}>
-      <IconButton color="inherit" aria-label="Menu">
-        <MenuIcon onClick={() => toggleMenu(true)} />
+      <IconButton
+        color="inherit" aria-label="Menu"
+        onClick={() => toggleMenu(true)}
+      >
+        <MenuIcon />
       </IconButton>
       <SwipeableDrawer anchor="right"
         open={menu}

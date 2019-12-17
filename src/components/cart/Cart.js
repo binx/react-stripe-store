@@ -75,7 +75,7 @@ function Cart(props) {
                   ${totalPrice}.00
                 </Subtotal>
                 <Link to={`/checkout`} style={{ textDecoration: "none" }}>
-                  <Button variant="raised" color="primary">Check Out</Button>
+                  <Button variant="contained" color="primary">Check Out</Button>
                 </Link>
               </RightSide>
             </div>

@@ -110,7 +110,7 @@ const AdminTable = (props) => {
                 </td>
                 <td>
                   <Button onClick={() => props.updateOrder(i)}
-                    variant="raised" color="secondary"
+                    variant="contained" color="secondary"
                   >
                     Notify
                   </Button>

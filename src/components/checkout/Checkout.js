@@ -42,7 +42,8 @@ function Checkout(props) {
     setItems(newItems ? newItems : [])
   }, []);
 
-  const createOrder = (address) => {
+  const createOrder = (newAddress) => {
+    setAddress(newAddress);
     const itemSKUS = items.map(i => ({ type: 'sku', parent: i.sku_id, quantity: +i.quantity }));
 
     let metadata = { status: "Ordered" };
@@ -54,14 +55,14 @@ function Checkout(props) {
       items: itemSKUS,
       metadata: metadata,
       shipping: {
-        name: `${address.givenName} ${address.familyName}`,
+        name: `${newAddress.givenName} ${newAddress.familyName}`,
         address: {
-          line1: address.address1,
-          line2: address.address2,
-          city: address.locality,
-          state: address.region,
+          line1: newAddress.address1,
+          line2: newAddress.address2,
+          city: newAddress.locality,
+          state: newAddress.region,
           country: 'US',
-          postal_code: address.postalCode
+          postal_code: newAddress.postalCode
         }
       },
       email: email
@@ -113,7 +114,7 @@ function Checkout(props) {
 
   return (
     <PageWrapper>
-        <Grid container className={classes.root} spacing={16} direction={'row-reverse'}>
+        <Grid container className={classes.root} spacing={10} direction={'row-reverse'}>
           <Grid item md={4} xs={12}>
             <Paper className={classes.paper}>
               <CartSmall items={items} config={config} />
@@ -145,7 +146,6 @@ function Checkout(props) {
               { pane === 1 ? (
                 <Shipping
                   address={address}
-                  handleChange={setAddress}
                   createOrder={createOrder}
                   changePane={() => setPane(2)}
                 />

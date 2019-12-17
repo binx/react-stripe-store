@@ -45,7 +45,7 @@ function _CardForm(props) {
           {...createOptions(props.fontSize)}
         />
       </label>
-      <Button variant="raised" color="primary" 
+      <Button variant="contained" color="primary" 
         disabled={disabled} onClick={handleSubmit}
       >
         Complete Order

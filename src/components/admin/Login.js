@@ -42,7 +42,7 @@ function Login(props) {
               onChange={e => setPassword(e.target.value)}
             />
           </div>
-          <Button variant="raised" color="primary" 
+          <Button variant="contained" color="primary" 
             onClick={logUserIn}
           >log in</Button>
           <div style={{ marginTop: "20px" }}>{error}</div>
