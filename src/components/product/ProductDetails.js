@@ -49,9 +49,9 @@ function ProductDetails(props) {
   const { variants } = props;
 
   const handleChange = name => event => {
-    const newProduct = Object.assign({
+    const newProduct = Object.assign({ ...product }, {
       [name]: event.target.value
-    }, product);
+    });
     setProduct(newProduct)
 
     const index = event.target.selectedIndex;
@@ -66,7 +66,7 @@ function ProductDetails(props) {
     <div>
         <h2 style={{ marginTop: "0" }}>{product.name}</h2>
         <Description>{product.description}</Description>
-        { variants &&
+        { !!variants.length &&
           <FlexWrapper>
             {variants.map((variant,i) => {
               return <Row key={i}>

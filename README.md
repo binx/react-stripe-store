@@ -55,15 +55,13 @@ Individual stores are created via a config file. There are three example configs
 
 Each product can also have an optional `variants` key for additional metadata to be saved for each product, rendered as a dropdown. This is for saving options without having to create individual SKUs in Stripe.
 ```
-"variants": [
-  {
-    "name": "metadata",
-    "options":[
-      {"label": "option 1"},
-      {"label": "option 2"}
-    ]
-  }
-]
+"variants": {
+  "name": "metadata",
+  "options":[
+    {"label": "option 1"},
+    {"label": "option 2"}
+  ]
+}
 ```
 
 Items in that config in all caps are sourced from Stripe. This project makes use of Stripe Dashboard to keep track of Product inventories, and SKUs (this allows Stripe to handle all payment info, reducing the risk of man-in-the-middle issues). On loading a product page, this site will ask Stripe for the SKUs associated with the given product ID.

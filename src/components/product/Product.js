@@ -27,8 +27,9 @@ const Grid = styled.div `
 `;
 
 function Product(props) {
+  const initialVariants = props.product.variants ? [props.product.variants] : [];
   const [quantity, setQuantity] = useState(1);
-  const [variants, setVariants] = useState(props.product.variants || []);
+  const [variants, setVariants] = useState(initialVariants);
   const [sku_id, setSkuID] = useState();
   const [price, setPrice] = useState();
 
@@ -51,7 +52,7 @@ function Product(props) {
             }))
           }
           let newVariants = [...variants];
-          newVariants.push(product_skus);
+          newVariants.unshift(product_skus);
           setVariants(variants);
 
           const defaultChoice = product_skus.options[0];

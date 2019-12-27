@@ -26,7 +26,7 @@
       "These are details that get rendered as bullet points",
       "Useful for short + sweet info"
     ],
-    "variants": [
+    "variants":
     {
       "name": "metadata",
       "options": [
@@ -36,6 +36,6 @@
       {
         "label": "option 2"
       }]
-    }]
+    }
   }]
 }
