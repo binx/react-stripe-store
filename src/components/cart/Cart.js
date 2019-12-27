@@ -31,9 +31,9 @@ const Subtotal = styled.div `
 
 function Cart(props) {
   const [items, setItems] = useState([]);
+  const slug = `${props.config.store_slug}_products`;
 
   useEffect(() => {
-    const slug = `${props.config.store_slug}_products`;
     let newItems = JSON.parse(localStorage.getItem(slug));
     setItems(newItems ? newItems : [])
   }, []);
@@ -43,12 +43,14 @@ function Cart(props) {
     newItems.splice(index, 1);
     props.updateNumber(newItems.length);
     setItems(newItems);
+    localStorage.setItem(slug, JSON.stringify(newItems));
   }
 
   const updateCount = (index, value) => {
     let newItems = [...items];
     newItems[index].quantity = value;
     setItems(newItems);
+    localStorage.setItem(slug, JSON.stringify(newItems));
   }
 
   let totalPrice;
