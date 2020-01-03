@@ -74,7 +74,10 @@ function Checkout(props) {
         body: JSON.stringify(postBody)
       }).then((response) => response.json())
       .then((json) => {
+        const slug = `${props.config.store_slug}_products`;
+        localStorage.setItem(slug, JSON.stringify([]));
         setOrderID(json.id);
+        setItems([]);
       })
   }
 
