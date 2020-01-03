@@ -17,10 +17,10 @@ const Wrapper = styled.div `
 `;
 const LargeIMG = styled.div `
   background-image: url(${props => props.img});
-  background-color: #ddd;
+  //background-color: #ddd;
   width: 100%;
   padding-bottom: 133%;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: 50%;
   display: inline-block;

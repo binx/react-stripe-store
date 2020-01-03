@@ -20,10 +20,10 @@ const IMG = styled.div `
 `;
 const LargeIMG = styled.div `
   background-image: url(${props => props.img});
-  background-color: #eee;
+  //background-color: #eee;
   width: 100%;
   padding-bottom: 133%;
-  background-size: cover;
+  background-size: contain; // was cover
   background-repeat: no-repeat;
   background-position: 50% 0;
   display: inline-block;
