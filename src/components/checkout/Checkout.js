@@ -74,10 +74,7 @@ function Checkout(props) {
         body: JSON.stringify(postBody)
       }).then((response) => response.json())
       .then((json) => {
-        const slug = `${props.config.store_slug}_products`;
-        localStorage.setItem(slug, JSON.stringify([]));
         setOrderID(json.id);
-        setItems([]);
       })
   }
 
@@ -95,6 +92,8 @@ function Checkout(props) {
         })
       }).then((response) => response.json())
       .then((order) => {
+        const slug = `${props.config.store_slug}_products`;
+        localStorage.setItem(slug, JSON.stringify([]));
         props.history.push({
           pathname: '/confirm',
           state: { order }
