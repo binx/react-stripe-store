@@ -1,4 +1,4 @@
-## ⚠️ This project has moved over to [Beluga](https://belugajs.com/) ⚠️
+## ⚠️ This project has moved over to [Beluga](https://github.com/binx/beluga) ⚠️
 
 Beluga has all of the same functionality as this project, plus these features:
 - Store backend UI to automate product creation and store theming
