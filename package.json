@@ -10,7 +10,7 @@
     "email-templates": "^6.0.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "googleapis": "27",
+    "googleapis": "39",
     "handlebars": "^4.5.3",
     "helmet": "^3.12.1",
     "nodemailer": "^6.4.2",
